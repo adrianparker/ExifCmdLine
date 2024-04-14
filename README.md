@@ -9,12 +9,15 @@ Work in progress.
 ### Local installation
 
 Ensure you have node installed. v20 or better.
+
 Clone the repo to a local directory. 
+
 Change into that directory. 
+
 Use npm to install the application.
 
 ```
-git clone TODO
+git clone https://github.com/adrianparker/ExifCmdLine.git
 cd ExifCmdLine
 npm install
 ```
