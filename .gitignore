@@ -63,3 +63,5 @@ typings/
 # vscode editor cruft
 .vscode/launch.json
 .vscode/settings.json
+
+.DS_Store
