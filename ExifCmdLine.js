@@ -1,21 +1,19 @@
 #!/usr/bin/env node
 
-import exifr from 'exifr'
-import ExifImage from 'exif'
 import argv from 'argv'
-import { flatten } from 'flat'
-import { DateTime } from 'luxon'
+import { processFileExif } from './fileProcessor.js'
+import { logToConsole } from './exifLogger.js'
 // when eslint can handle JSON module imports
 // import packageJSON from './package.json' with { type: "json" }
 const packageJSON = {
-  version: '1.0.0'
+  version: '1.0.1'
 }
 
 /**
- * Validates command line arguments and if they look OK, invokes EXIF extraction.
+ * Validates command line arguments and if they look OK, invokes EXIF extraction and logs it to console.
  * Otherwise will output some information on correct invocation and exit.
  */
-function start() {
+async function start() {
   console.log('ExifCmdLine v ' + packageJSON.version)
   argv.version(packageJSON.version)
   argv.option({
@@ -52,80 +50,8 @@ function start() {
     argv.help()
     process.exit(2)
   }
-  processFileExif(args.options.filename, args.options.zone, !!args.options.all)
-}
-
-/**
- * Attempts to read EXIF data from given file.
- * If data is extracted, calls logging function.
- *
- * @param {*} filename of image to attempt to read EXIF data from
- * @param {string} (optional) IANA timezone string to display full date times as
- * @param {boolean} whether to output all exif data or just dates
- */
-async function processFileExif(filename, zone, all) {
-  const exif = await exifr.parse(filename)
-  if (exif) {
-    logExifDates(exif, zone, all)
-  } else {
-    try {
-      /* eslint-disable */
-      new ExifImage({ image: filename }, function (error, exifData) {
-        /* eslint-enable */
-        if (error) {
-          console.log('Error: ' + error.message)
-        } else {
-          logExifDates(exifData, zone, all)
-        }
-      })
-    } catch (error) {
-      console.log('Error: ' + error)
-    }
-  }
-}
-
-/**
- * Logs to console all EXIF attributes that include the word 'date'
- * @param {*} exif output from one of the exif metadata extraction modules
- * @param {string} (optional) IANA timezone string to display full date times as
- * @param {boolean} whether to output all exif data
- */
-function logExifDates(exif, zone, all) {
-  if (exif) {
-    // we flatten as ExifImage provides nested objects in output, whereas exifr does not.
-    const flatExif = flatten(exif)
-    Object.keys(flatExif)
-      .sort()
-      .forEach(function (flatExifKey, i) {
-        if (flatExifKey.toUpperCase().indexOf('DATE') > -1) {
-          const dateVal = flatExif[flatExifKey]
-          let luxonDateTime, luxonDate
-          if (Object.prototype.toString.call(dateVal) === '[object Date]') {
-            luxonDateTime = DateTime.fromJSDate(dateVal)
-          } else if (typeof flatExif[flatExifKey] === 'string') {
-            if (flatExifKey === 'GPSDateStamp') {
-              luxonDate = DateTime.fromFormat(flatExif[flatExifKey], 'yyyy:MM:dd')
-            } else {
-              luxonDateTime = DateTime.fromISO(dateVal)
-            }
-          }
-          if (luxonDateTime) {
-            if (zone) {
-              console.log('%s: %s (%s)', flatExifKey, luxonDateTime.setZone(zone).toLocaleString(DateTime.DATETIME_MED_WITH_SECONDS), zone)
-            } else {
-              console.log('%s: %s', flatExifKey, luxonDateTime.toLocaleString(DateTime.DATETIME_MED_WITH_SECONDS))
-            }
-          } else if (luxonDate) {
-            console.log('%s: %s', flatExifKey, luxonDate.toLocaleString(DateTime.DATE_FULL))
-          } else {
-            console.log('%s: %s', flatExifKey, dateVal)
-          }
-        }
-      })
-    if (all) console.log(exif)
-  } else {
-    console.log('Error - null exif')
-  }
+  const exifData = await processFileExif(args.options.filename, args.options.zone, !!args.options.all)
+  logToConsole(exifData)
 }
 
 // invoke the application
