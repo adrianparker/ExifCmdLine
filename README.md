@@ -1,10 +1,16 @@
 # ExifCmdLine
-A simple command line tool for displaying image file EXIF data attributes.
+Simple command line tool for displaying EXIF data attributes for a specific image. 
+
+Displays:
+* _by default_: only the "date" attributes in a given image's EXIF data
+* _with -h_: all attributes in a given image's EXIF data
+* _with -z_: "date" attributes as is, and also converted to UTC and a specified timezone
 
 ## Project status
-Stable, ready for use. 
+Latest version: 1.0.1 is Stable, ready for use.
 
 ## Installation
+
 ### Local installation
 
 Ensure you have node installed. v20 or better.
@@ -45,6 +51,7 @@ In this example, I have an image and the file system tells me it has a date of 1
 (Also note inconsistent times in that EXIF data, we'll come back to that in a second)
 
 ![Example of basic usage](./docs/img/basic_example.png)
+Green is converted to a human readable date; purple is ISO8601 format.
 
 ### Comprehensive, all data export
 
@@ -60,9 +67,9 @@ Same photo, far more comprehensive EXIF data.
 
 We can see Lens data, and Camera Make and Model, and... whatever the camera or post-capture software appended.
 
-Recall the inconsistent modified date in the Basic usage above? Here we see a Software tag for Adobe Lightroom - and so we can surmise the photo was taken at 12:31pm, then touched up in Lightroom an hour or so later. Nice!
+Recall the inconsistent modified date in the Basic usage above? Here we see a Software tag for Adobe Lightroom - and so we can surmise the photo was taken at 12:31pm, then touched up ("modified") in Lightroom at 1.40pm. Nice!
 
-Remember: EXIF data varies. Different photos will have different sets of attributes included; and some photos have no EXIF at all - particualrly if they've been through a social media, email or messaging app (they can strip EXIF for privacy reasons)
+Note: EXIF data varies. Different photos will have different sets of attributes; some photos have no EXIF at all - particularly if they've been through a social media, email or messaging app.
 
 ### Time zone conversion
 
@@ -81,10 +88,13 @@ This will display each date attribute unconverted (NO ZONE), converted to UTC, a
 Exercise caution with this one, devices can automatically infer timezone from GPS or Wi-Fi or myriad other sources.
 
 ### Display application version currently installed
+
 ```
 ExifCmdLine -v
 ```
+
 ### Display brief help re vallid arguments
+
 ```
 ExifCmdLine -h
 ```
@@ -96,4 +106,5 @@ npm test
 ```
 
 ## Contributing
+
 Fire in a pull request by all means. Please adhere to Javascript Standard Style: https://standardjs.com/rules.html
