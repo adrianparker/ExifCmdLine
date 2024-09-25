@@ -11,7 +11,7 @@ import { DateTime, IANAZone } from 'luxon'
  * @param {boolean} whether to output all exif data or just dates
  * @returns {Array} contains Arrays of extracted EXIF data keys, values, and optional timezone
  */
-export async function processFileExif(filename, zone, all) {
+export async function processFileExif (filename, zone, all) {
   if (zone && !IANAZone.isValidZone(zone)) {
     throw new Error(zone + ' is not a valid IANA zone')
   }
@@ -42,7 +42,7 @@ export async function processFileExif(filename, zone, all) {
  * @param {boolean} whether to output all exif data
  * @returns {Array} contains Arrays of extracted EXIF data keys, values, and optional timezone
  */
-function logExifDates(exif, zone, all) {
+function logExifDates (exif, zone, all) {
   const exifValues = []
   if (exif) {
     // we flatten as ExifImage provides nested objects in output, whereas exifr does not.

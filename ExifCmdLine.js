@@ -6,14 +6,14 @@ import { logToConsole } from './exifLogger.js'
 // when eslint can handle JSON module imports
 // import packageJSON from './package.json' with { type: "json" }
 const packageJSON = {
-  version: '1.0.1'
+  version: '1.0.2'
 }
 
 /**
  * Validates command line arguments and if they look OK, invokes EXIF extraction and logs it to console.
  * Otherwise will output some information on correct invocation and exit.
  */
-async function start() {
+async function start () {
   console.log('ExifCmdLine v ' + packageJSON.version)
   argv.version(packageJSON.version)
   argv.option({

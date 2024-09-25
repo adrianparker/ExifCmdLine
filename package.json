@@ -1,6 +1,6 @@
 {
   "name": "exifcmdline",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Command line utility for viewing EXIF attributes of an image",
   "main": "ExifCmdLine.js",
   "bin": {

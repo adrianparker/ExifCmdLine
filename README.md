@@ -90,7 +90,7 @@ Exercise caution with this one, devices can automatically infer timezone from GP
 ### Display application version currently installed
 
 ```
-ExifCmdLine -v
+ExifCmdLine --version
 ```
 
 ### Display brief help re vallid arguments
