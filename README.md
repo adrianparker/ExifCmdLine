@@ -1,5 +1,9 @@
 # ExifCmdLine
-Simple command line tool for displaying EXIF data attributes for a specific image. 
+Simple tool for displaying EXIF data attributes for a specific image.
+
+This project now supports:
+* a Node.js CLI
+* a browser-only web app that runs with no server-side EXIF processing
 
 Displays:
 * _by default_: only the "date" attributes in a given image's EXIF data
@@ -7,7 +11,7 @@ Displays:
 * _with -z_: "date" attributes as is, and also converted to UTC and a specified timezone
 
 ## Project status
-Latest version: 1.0.1 is Stable, ready for use.
+Latest version: 1.0.2 is Stable, ready for use.
 
 ## Installation
 
@@ -104,6 +108,33 @@ ExifCmdLine -h
 ```
 npm test
 ```
+
+## Browser app (static hosting)
+
+The browser app lives in [web/index.html](web/index.html) and uses client-side parsing.
+
+Features:
+* select or drag-drop an image
+* optional timezone conversion
+* optional all-fields EXIF output
+* no file upload to any backend
+
+To run locally with any static server:
+
+```bash
+npx serve web
+```
+
+Then open the URL printed by `serve` in your browser.
+
+### Eleventy / GitHub Pages integration
+
+Because the app is browser-only, it can be hosted on GitHub Pages with no backend:
+
+1. Copy `web/` assets into your Eleventy output path (or configure passthrough copy).
+2. Ensure `src/` modules used by `web/exif-app.js` are also copied (or bundled).
+3. Add an Eleventy page that includes the app shell and module script.
+4. Deploy static output to GitHub Pages.
 
 ## Contributing
 

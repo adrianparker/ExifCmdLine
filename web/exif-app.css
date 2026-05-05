@@ -1,0 +1,186 @@
+/* Styles follow adrianparker.github.io/static/index.css design tokens */
+
+:root {
+  --background-gradient-bottom-color: #333333;
+  --background-gradient-top-color: #262626;
+  --highlight-color: #ff9900;
+  --subheading-color: #666666;
+  --text-color: #cccccc;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html, label, button, input, select, textarea {
+  font-family: Arial, Helvetica, Georgia, serif;
+}
+
+body {
+  background: linear-gradient(var(--background-gradient-top-color), var(--background-gradient-bottom-color));
+  background-color: var(--background-gradient-bottom-color);
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  color: var(--text-color);
+  margin: 0;
+  min-height: 100vh;
+}
+
+h1, h2 {
+  font-family: 'Bebas Neue', serif;
+  color: var(--highlight-color);
+  margin-bottom: 0;
+  margin-top: 0.3em;
+}
+
+h1 { font-size: 3em; }
+h2 { font-size: 1.5em; }
+
+p, label, th, td {
+  font-size: 1.2em;
+  line-height: 1.5em;
+}
+
+th { color: var(--highlight-color); }
+td { color: var(--text-color); }
+
+.tagline {
+  color: var(--subheading-color);
+  font-style: italic;
+}
+
+.shell {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 1.5rem;
+}
+
+.panel {
+  border-top: 2px solid var(--highlight-color);
+  padding-top: 0.75rem;
+}
+
+.controls {
+  display: grid;
+  gap: 1rem;
+}
+
+.control-group {
+  display: grid;
+  gap: 0.3rem;
+}
+
+.control-group input,
+.control-group select {
+  background-color: var(--background-gradient-top-color);
+  border: 1px solid var(--subheading-color);
+  border-radius: 4px;
+  color: var(--text-color);
+  font-family: Arial, Helvetica, Georgia, serif;
+  font-size: 1em;
+  padding: 0.5rem 0.65rem;
+}
+
+.control-group input:focus,
+.control-group select:focus {
+  border-color: var(--highlight-color);
+  outline: 1px solid var(--highlight-color);
+}
+
+.toggle {
+  align-items: center;
+  color: var(--text-color);
+  display: flex;
+  gap: 0.5rem;
+}
+
+button {
+  background-color: var(--subheading-color);
+  border: none;
+  border-radius: 4px;
+  color: var(--text-color);
+  cursor: pointer;
+  font-size: 1em;
+  padding: 0.55rem 1rem;
+}
+
+button:hover {
+  color: var(--highlight-color);
+}
+
+.drop-zone {
+  border: 2px dashed var(--subheading-color);
+  border-radius: 4px;
+  color: var(--subheading-color);
+  font-size: 1.2em;
+  min-height: 8rem;
+  padding: 1.25rem;
+  text-align: center;
+  transition: border-color 150ms ease, color 150ms ease;
+}
+
+.drop-zone.active {
+  border-color: var(--highlight-color);
+  color: var(--highlight-color);
+}
+
+.status {
+  color: var(--subheading-color);
+  font-size: 1em;
+  min-height: 1.5rem;
+}
+
+.status.error {
+  color: #cc3300;
+  font-weight: bold;
+}
+
+.status.success {
+  color: var(--highlight-color);
+}
+
+.search-group {
+  margin-bottom: 0.75rem;
+}
+
+.search-group input {
+  background-color: var(--background-gradient-top-color);
+  border: 1px solid var(--subheading-color);
+  border-radius: 4px;
+  color: var(--text-color);
+  font-family: Arial, Helvetica, Georgia, serif;
+  font-size: 1em;
+  padding: 0.5rem 0.65rem;
+  width: 100%;
+}
+
+.search-group input:focus {
+  border-color: var(--highlight-color);
+  outline: 1px solid var(--highlight-color);
+}
+
+.table-wrap {
+  overflow: auto;
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+th, td {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  padding: 0.35rem 0.5rem;
+  text-align: left;
+  vertical-align: top;
+}
+
+@media (min-width: 850px) {
+  .shell {
+    grid-template-columns: minmax(300px, 380px) 1fr;
+    padding: 2rem;
+  }
+}
