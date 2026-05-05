@@ -60,7 +60,12 @@ td { color: var(--text-color); }
 
 .panel {
   border-top: 2px solid var(--highlight-color);
+  min-width: 0;
   padding-top: 0.75rem;
+}
+
+.results-panel {
+  min-width: 0;
 }
 
 .controls {
@@ -142,6 +147,18 @@ button:hover {
   color: var(--highlight-color);
 }
 
+.selected-image-preview {
+  margin-top: 0.75rem;
+}
+
+.selected-image-preview__image {
+  border: 1px solid var(--subheading-color);
+  border-radius: 4px;
+  display: block;
+  height: auto;
+  max-width: 100%;
+}
+
 .search-group {
   margin-bottom: 0.75rem;
 }
@@ -163,6 +180,7 @@ button:hover {
 }
 
 .table-wrap {
+  max-width: 100%;
   overflow: auto;
 }
 
@@ -173,6 +191,7 @@ table {
 
 th, td {
   border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  overflow-wrap: anywhere;
   padding: 0.35rem 0.5rem;
   text-align: left;
   vertical-align: top;

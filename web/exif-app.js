@@ -24,6 +24,9 @@ const resultsBody = document.getElementById('results-body')
 const zoneTh = document.getElementById('zone-th')
 const dropZone = document.getElementById('drop-zone')
 const searchInput = document.getElementById('search-input')
+const selectedImagePreview = document.getElementById('selected-image-preview')
+
+let selectedImageUrl = null
 
 function setStatus (message, isError = false, isSuccess = false) {
   statusEl.textContent = message
@@ -33,6 +36,30 @@ function setStatus (message, isError = false, isSuccess = false) {
 
 function clearResults () {
   resultsBody.innerHTML = ''
+}
+
+function clearPreview () {
+  if (selectedImageUrl) {
+    URL.revokeObjectURL(selectedImageUrl)
+    selectedImageUrl = null
+  }
+
+  selectedImagePreview.innerHTML = ''
+  selectedImagePreview.hidden = true
+}
+
+function renderPreview (file) {
+  clearPreview()
+
+  selectedImageUrl = URL.createObjectURL(file)
+
+  const image = document.createElement('img')
+  image.className = 'selected-image-preview__image'
+  image.alt = file.name ? ('Selected photo: ' + file.name) : 'Selected photo'
+  image.src = selectedImageUrl
+
+  selectedImagePreview.appendChild(image)
+  selectedImagePreview.hidden = false
 }
 
 function renderResults (rows) {
@@ -73,34 +100,50 @@ function renderResults (rows) {
   setStatus('Rendered ' + rows.length + ' EXIF rows.', false, true)
 }
 
+function runSafely (action) {
+  Promise.resolve(action()).catch((error) => {
+    setStatus(error?.message || 'Unexpected error.', true)
+  })
+}
+
 async function handleFile (file) {
   if (!file) {
+    clearPreview()
     setStatus('Please select an image file.', true)
     return
   }
 
-  setStatus('Reading EXIF...')
+  if (file.type && !file.type.startsWith('image/')) {
+    clearPreview()
+    setStatus('Please select an image file.', true)
+    return
+  }
 
   try {
+    renderPreview(file)
+    setStatus('Reading EXIF...')
+
     const zone = zoneInput.value || null
     const rows = await processFileExifBrowser(file, zone, allInput.checked)
     renderResults(rows)
   } catch (error) {
+    clearPreview()
     setStatus(error.message || 'Failed to read EXIF.', true)
   }
 }
 
 function resetUI () {
   clearResults()
+  clearPreview()
   setStatus('')
   zoneInput.value = ''
   allInput.checked = true
   searchInput.value = ''
 }
 
-fileInput.addEventListener('change', async () => {
+fileInput.addEventListener('change', () => {
   resetUI()
-  await handleFile(fileInput.files[0])
+  runSafely(() => handleFile(fileInput.files[0]))
 })
 
 function applyFilter () {
@@ -114,15 +157,15 @@ function applyFilter () {
 
 searchInput.addEventListener('input', applyFilter)
 
-allInput.addEventListener('change', async () => {
+allInput.addEventListener('change', () => {
   if (fileInput.files[0]) {
-    await handleFile(fileInput.files[0])
+    runSafely(() => handleFile(fileInput.files[0]))
   }
 })
 
-zoneInput.addEventListener('change', async () => {
+zoneInput.addEventListener('change', () => {
   if (fileInput.files[0]) {
-    await handleFile(fileInput.files[0])
+    runSafely(() => handleFile(fileInput.files[0]))
   }
 })
 
@@ -135,7 +178,7 @@ dropZone.addEventListener('dragleave', () => {
   dropZone.classList.remove('active')
 })
 
-dropZone.addEventListener('drop', async (event) => {
+dropZone.addEventListener('drop', (event) => {
   event.preventDefault()
   dropZone.classList.remove('active')
 
@@ -147,5 +190,5 @@ dropZone.addEventListener('drop', async (event) => {
     fileInput.files = dt.files
   }
 
-  await handleFile(file)
+  runSafely(() => handleFile(file))
 })
