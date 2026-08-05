@@ -129,12 +129,13 @@ Then open the URL printed by `serve` in your browser.
 
 ### Eleventy / GitHub Pages integration
 
-Because the app is browser-only, it can be hosted on GitHub Pages with no backend:
-
-1. Copy `web/` assets into your Eleventy output path (or configure passthrough copy).
-2. Ensure `src/` modules used by `web/exif-app.js` are also copied (or bundled).
-3. Add an Eleventy page that includes the app shell and module script.
-4. Deploy static output to GitHub Pages.
+Because the app is browser-only, it can be hosted on GitHub Pages with no backend.
+`adrianparker.com` consumes this package as a pinned npm dependency
+(`github:adrianparker/ExifCmdLine#v<version>`). Installing it runs the
+`prepare` script, which builds `web/dist/` via Vite; the consuming site's own
+build then copies the hashed `web/dist/assets/*` files out of
+`node_modules/exifcmdline` and reads the current filenames at build time
+rather than hardcoding them.
 
 ## Contributing
 

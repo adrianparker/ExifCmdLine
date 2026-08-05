@@ -197,6 +197,14 @@ th, td {
   vertical-align: top;
 }
 
+/* Flattened EXIF keys (e.g. "gps.GPSLatitude") were wrapping after a
+   handful of characters because the table had no column widths at all —
+   the browser's auto layout gave them almost no room. Give the key column
+   a fixed, generous width instead of leaving it to shrink to fit. */
+th:first-child, td:first-child {
+  width: 16em;
+}
+
 @media (min-width: 850px) {
   .shell {
     grid-template-columns: minmax(300px, 380px) 1fr;
