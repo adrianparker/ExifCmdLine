@@ -11,7 +11,7 @@ Displays:
 * _with -z_: "date" attributes as is, and also converted to UTC and a specified timezone
 
 ## Project status
-Latest version: 1.0.2 is Stable, ready for use.
+Latest version: 1.0.5 is Stable, ready for use.
 
 ## Installation
 
